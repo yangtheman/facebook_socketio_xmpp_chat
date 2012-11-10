@@ -1,14 +1,6 @@
 var app = require('express').createServer();
 var io = require('socket.io').listen(app);
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-});
-
-app.configure('production', function(){
-  app.use(express.errorHandler()); 
-});
-
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("NodeChat server listening on port %d in %s mode", app.address().port, app.settings.env);
