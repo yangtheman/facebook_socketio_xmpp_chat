@@ -1,0 +1,13 @@
+{
+  "name": "yang_chat",
+  "description": "node + socket.io chat app sample",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "2.4.6",
+    "socket.io": "0.8.4"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}
