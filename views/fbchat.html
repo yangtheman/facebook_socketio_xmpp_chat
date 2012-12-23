@@ -1,0 +1,77 @@
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+  var socket = io.connect();
+  
+  // on connection to server, ask for user's name with an on callback
+  socket.on('connect', function() {
+    // call the server-side user init
+    socket.emit('inituser');
+  });
+  
+  socket.on('update_user', function(currentUser_id) {
+    $("#user").html('<h3> Logged in as ' + currentUser_id + '</h3>');
+  });
+  
+  socket.on('update_friends', function(friends) {
+    for (fbid in friends) {
+      $('#friends').append('<div class="friend" fbid="' + fbid + '">' + friends[fbid] + '</div>');
+    }
+  });
+  
+  // listener, whenever the server emits 'updatechat', this updates the chat body
+	socket.on('updatechat', function (username, message) {
+		$('#conversation').append('<b>'+ username + ':</b> ' + message + '<br>');
+	});
+  
+  // listener, whenever the server emits 'updateusers', this updatesthe username list
+  socket.on('updateusers', function(data) {
+    $('#users').empty();
+    $.each(data, function(key, value) {
+      $('#users').append('<div>' + key + '</div>');
+    });
+  });
+  
+  // on load of page
+  $(function() {    
+    // when the client clicks SEND
+    $('#datasend').click(function() {
+      var fbid = $('#to_friend').attr('fbid');
+      var message = $('#data').val();
+      $('#data').val('');
+      // tell server to execute 'sendchat' and send along one param
+      socket.emit('sendchat', fbid, message);
+    });
+    
+    // when the client hits ENTER on their keyboard
+    $('#data').keypress(function(e) {
+      if (e.which == 13) {
+        $(this).blur();
+        $('#datasend').focus().click();
+      }
+    });
+    
+    // update to whom user will send a message
+    $('#friends').on('click', '.friend', function() {
+      $('#to_friend').text('Currently sending message to ' + $(this).text());
+      $('#to_friend').attr('fbid', $(this).attr('fbid'));
+    });
+        
+  });
+</script>
+
+<html>
+<body>
+<div style="float:left;width:400px;border-right:1px solid black;height:auto;padding:10px;overflow:scroll-y;">
+	<b>Friends</b>
+	<div id="friends"></div>
+</div>
+<div style="float:left;width:500px;height:auto;overflow:scroll-y;padding:10px;">
+  <div id="user"></div>
+  <div id="to_friend">Pick a friend from left to chat.</div>
+	<input id="data" style="width:200px;" />
+	<input type="button" id="datasend" value="send" />
+	<div id="conversation"></div>
+</div>  
+</body>
+</html>

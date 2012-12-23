@@ -1,0 +1,17 @@
+{
+  "name": "yang_chat",
+  "description": "node + socket.io chat app sample",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "2.4.6",
+    "socket.io": "0.8.4",
+    "node-xmpp": "0.3.2",
+    "validator": "0.4.19",
+    "facebook-chat": "0.0.2",
+    "jade": "0.27.7"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}
