@@ -65,6 +65,7 @@ app.configure(function() {
 });
 
 models.defineModels(mongoose, function() {
+  console.log("Connecting to " + app.set('db-uri'));
   app.User = User = mongoose.model('User');
   db = mongoose.connect(app.set('db-uri'));
 })
