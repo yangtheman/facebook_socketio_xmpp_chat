@@ -8,6 +8,7 @@ var express = require('express'),
     FacebookStrategy = require('passport-facebook').Strategy,
     models = require('./models'),
     FacebookChat = require('facebook-chat'),
+    // mongo = require('mongodb'),
     currentUser = {},
     friends = {},
     facebookClient,
@@ -38,7 +39,14 @@ app.configure('test', function() {
 });
 
 app.configure('production', function() {
-  app.set('db-uri', 'mongodb://localhost/yangchat-production');
+  var mongoUri = process.env.MONGOLAB_URI || 
+    process.env.MONGOHQ_URL || 
+    'mongodb://localhost/mydb'; 
+  
+  app.set('db-uri', mongoUri);
+
+  // app.set('db-uri', 'mongodb://localhost/yangchat-production');
+  
 });
 
 app.configure(function() {
