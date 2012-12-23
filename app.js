@@ -8,7 +8,6 @@ var express = require('express'),
     FacebookStrategy = require('passport-facebook').Strategy,
     models = require('./models'),
     FacebookChat = require('facebook-chat'),
-    // mongo = require('mongodb'),
     currentUser = {},
     friends = {},
     facebookClient,
@@ -23,8 +22,11 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
+var port = process.env.PORT || 5000;
+
 app.configure('development', function() {
   app.set('db-uri', 'mongodb://localhost/yangchat-development');
+  app.set('fb-callback-url', 'http://yangchat.herokuapp.com:' + port + '/auth/facebook/callback');
   app.use(express.errorHandler({ dumpExceptions: true }));
   app.set('view options', {
     pretty: true
@@ -33,6 +35,7 @@ app.configure('development', function() {
 
 app.configure('test', function() {
   app.set('db-uri', 'mongodb://localhost/yangchat-test');
+  app.set('fb-callback-url', 'http://yangchat.herokuapp.com:' + port + '/auth/facebook/callback');
   app.set('view options', {
     pretty: true
   });  
@@ -43,10 +46,8 @@ app.configure('production', function() {
     process.env.MONGOHQ_URL || 
     'mongodb://localhost/mydb'; 
   
-  app.set('db-uri', mongoUri);
-
-  // app.set('db-uri', 'mongodb://localhost/yangchat-production');
-  
+  app.set('db-uri', mongoUri);  
+  app.set('fb-callback-url', 'http://yangchat.herokuapp.com/auth/facebook/callback');
 });
 
 app.configure(function() {
@@ -70,7 +71,6 @@ models.defineModels(mongoose, function() {
   db = mongoose.connect(app.set('db-uri'));
 })
 
-var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("NodeChat server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
@@ -78,7 +78,7 @@ app.listen(port, function() {
 passport.use(new FacebookStrategy({
   clientID: '216824721709270',
   clientSecret: '82fe3a5bd84d808cc064f89baf20c709',
-  callbackURL: "http://yangchat.herokuapp.com:" + port + "/auth/facebook/callback", 
+  callbackURL: app.set('fb-callback-url'), 
   passReqToCallback: true},
   
   function(req, accessToken, refreshToken, profile, done) {
