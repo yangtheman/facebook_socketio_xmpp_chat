@@ -56,7 +56,7 @@ app.configure(function() {
   app.use(express.favicon());
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({ store: mongoStore(app.set('db-uri')), secret: 'topsecret' }));
+  // app.use(express.session({ store: mongoStore(app.set('db-uri')), secret: 'topsecret' }));
   app.use(express.logger({ format: '\x1b[1m:method\x1b[0m \x1b[33m:url\x1b[0m :response-time ms' }))
   app.use(express.methodOverride());
   app.use(express.static(__dirname + '/public'));
