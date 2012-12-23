@@ -56,7 +56,7 @@ app.configure(function() {
   app.use(express.favicon());
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  // app.use(express.session({ store: mongoStore(app.set('db-uri')), secret: 'topsecret' }));
+  app.use(express.session({ store: mongoStore(app.set('db-uri')), secret: 'topsecret' }));
   app.use(express.logger({ format: '\x1b[1m:method\x1b[0m \x1b[33m:url\x1b[0m :response-time ms' }))
   app.use(express.methodOverride());
   app.use(express.static(__dirname + '/public'));
@@ -78,7 +78,7 @@ app.listen(port, function() {
 passport.use(new FacebookStrategy({
   clientID: '216824721709270',
   clientSecret: '82fe3a5bd84d808cc064f89baf20c709',
-  callbackURL: "http://yangchat.com:" + port + "/auth/facebook/callback", 
+  callbackURL: "http://yangchat.herokuapp.com:" + port + "/auth/facebook/callback", 
   passReqToCallback: true},
   
   function(req, accessToken, refreshToken, profile, done) {
@@ -99,7 +99,6 @@ passport.use(new FacebookStrategy({
         currentUser = {id: profile.id, accessToken: accessToken};
       });
       return done(null);            
-      //return done(null);
     }
   }
 ));
@@ -108,10 +107,6 @@ passport.use(new FacebookStrategy({
 app.get('/', function (req, res) {
   res.render('index');
 });
-
-app.get('/facebook', function(req, res) {
-  res.sendfile(__dirname + '/views/facebook_login.html');
-})
 
 app.get('/fbchat', function(req, res) {
   
