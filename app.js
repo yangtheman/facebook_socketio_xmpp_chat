@@ -112,8 +112,8 @@ app.get('/fbchat', function(req, res) {
   
   var params = {
     facebookId : currentUser.fbid,
-    appId : '216824721709270',
-    secret_key : '82fe3a5bd84d808cc064f89baf20c709',
+    appId : FB_APP_ID,
+    secret_key : FB_APP_SECRET,
     accessToken : currentUser.accessToken
   };
   
