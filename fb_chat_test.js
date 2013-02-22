@@ -1,10 +1,10 @@
 var FacebookChat = require("facebook-chat");
 
 var params = {
-  facebookId : '509075405',
-  appId : '216824721709270',
-  secret_key : '82fe3a5bd84d808cc064f89baf20c709',
-  accessToken : 'AAADFM3CEGNYBAEEwM0ZC9WddajQWvyaUjadgd49Fbo7htvJSfSCHlEW4wnlrzmxc8jFvxWwoFZBKWv5tA7MRyG2ZBmIUyxrGwD8FUVVewZDZD'
+  facebookId : FB_USER_ID,
+  appId : FB_APP_ID,
+  secret_key : FB_SECRET,
+  accessToken : FB_USER_ACCESS_TOKEN
 };
 
 var facebookClient = new FacebookChat(params);
