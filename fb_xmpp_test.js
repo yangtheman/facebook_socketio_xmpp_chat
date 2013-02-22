@@ -22,7 +22,7 @@ var accessToken = argv[3];
 var params = {
     jid: '-' + fbUID + '@chat.facebook.com', 
     // api_key: '145634995501895', // api key of fb debugger tool
-    api_key: '216824721709270',
+    api_key: FB_API_KEY,
     access_token: accessToken, // user access token
     host: 'chat.facebook.com',
 };
