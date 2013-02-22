@@ -76,8 +76,8 @@ app.listen(port, function() {
 });
 
 passport.use(new FacebookStrategy({
-  clientID: '216824721709270',
-  clientSecret: '82fe3a5bd84d808cc064f89baf20c709',
+  clientID: FB_APP_ID,
+  clientSecret: FB_APP_SECRET,
   callbackURL: app.set('fb-callback-url'), 
   passReqToCallback: true},
   
